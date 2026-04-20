@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MISSION JEET | Discipline Command Center</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Clean Compact Header -->
+    <header class="header-clean">
+        <div class="header-container">
+            <div class="brand-section">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqOdLf8JGehQP3xKHrI4lM9474lYX7WerE1g&s" alt="Mission Jeet" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="logo-fallback" style="display:none;" >
+                    <div class="logo-box">MJ</div>
+                    <div class="brand-text">
+                        <div class="brand-name">MISSION JEET</div>
+                        <div class="brand-tag">DRONA JEE/NEET</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quote-display">
+                <div class="quote-icon">💬</div>
+                <div class="quote-content">
+                    <p class="quote-main" id="dailyQuote">Loading today's motivation...</p>
+                    <p class="quote-author" id="quoteAuthor">—</p>
+                </div>
+                <button class="quote-refresh" onclick="fetchDailyQuote()" title="New Quote">↻</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Clean Navigation -->
+    <nav class="nav-clean">
+        <button class="nav-pill active" onclick="showSection('home')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-pill" onclick="showSection('daily')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">Tasks</span>
+        </button>
+        <button class="nav-pill" onclick="showSection('tracking')">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Tracker</span>
+        </button>
+        <button class="nav-pill" onclick="showSection('tests')">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">Tests</span>
+        </button>
+        <button class="nav-pill" onclick="showSection('edit')">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Settings</span>
+        </button>
+    </nav>
+
+    <main class="main-container">
+        <!-- HOME SECTION -->
+        <section id="home" class="section active">
+            <div class="hero-card-clean">
+                <div class="hero-badge">⚡ DAILY MISSION</div>
+                <h1 class="hero-title">Execute with Precision</h1>
+                <p class="hero-sub">Discipline over motivation. Consistency over intensity.</p>
+                
+                <div class="stats-bar">
+                    <div class="stat-chip">
+                        <span class="chip-icon">🔥</span>
+                        <span class="chip-value" id="homeStreak">0</span>
+                        <span class="chip-label">Streak</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="chip-icon">📈</span>
+                        <span class="chip-value" id="homeProgress">0%</span>
+                        <span class="chip-label">Today</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="chip-icon">🎯</span>
+                        <span class="chip-value" id="homeTests">0</span>
+                        <span class="chip-label">Tests</span>
+                    </div>
+                    <div class="stat-chip">
+                        <span class="chip-icon">⏱️</span>
+                        <span class="chip-value" id="homeHours">0</span>
+                        <span class="chip-label">Hours</span>
+                    </div>
+                </div>
+
+                <div class="strict-box" id="homeStrict">
+                    🔒 Complete Task 1 before touching your phone
+                </div>
+
+                <button class="btn-cta" onclick="showSection('daily')">
+                    Start Execution →
+                </button>
+            </div>
+
+            <!-- Category Grid with Icons -->
+            <div class="category-section">
+                <h3 class="section-label">Task Categories</h3>
+                <div class="category-grid-clean">
+                    <div class="cat-card" onclick="showSection('daily')" data-cat="wake">
+                        <div class="cat-icon-wrap">🌅</div>
+                        <div class="cat-name">Early Wake</div>
+                        <div class="cat-status" id="cat-wake">Pending</div>
+                    </div>
+                    <div class="cat-card" onclick="showSection('daily')" data-cat="study">
+                        <div class="cat-icon-wrap">📚</div>
+                        <div class="cat-name">Study</div>
+                        <div class="cat-status" id="cat-study">Pending</div>
+                    </div>
+                    <div class="cat-card" onclick="showSection('daily')" data-cat="practice">
+                        <div class="cat-icon-wrap">✏️</div>
+                        <div class="cat-name">Practice</div>
+                        <div class="cat-status" id="cat-practice">Pending</div>
+                    </div>
+                    <div class="cat-card" onclick="showSection('daily')" data-cat="revision">
+                        <div class="cat-icon-wrap">🔄</div>
+                        <div class="cat-name">Revision</div>
+                        <div class="cat-status" id="cat-revision">Pending</div>
+                    </div>
+                    <div class="cat-card" onclick="showSection('tests')" data-cat="test">
+                        <div class="cat-icon-wrap">🎯</div>
+                        <div class="cat-name">Test</div>
+                        <div class="cat-status" id="cat-test">Pending</div>
+                    </div>
+                    <div class="cat-card" onclick="showSection('daily')" data-cat="exercise">
+                        <div class="cat-icon-wrap">💪</div>
+                        <div class="cat-name">Exercise</div>
+                        <div class="cat-status" id="cat-exercise">Pending</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAILY TASKS SECTION -->
+        <section id="daily" class="section">
+            <div class="page-header">
+                <div>
+                    <h2 class="page-title">Daily Execution</h2>
+                    <p class="page-date" id="currentDate">Loading...</p>
+                </div>
+                <div class="progress-ring">
+                    <svg viewBox="0 0 36 36" class="ring-svg">
+                        <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path class="ring-fill" id="ringProgress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    </svg>
+                    <div class="ring-text" id="ringPercent">0%</div>
+                </div>
+            </div>
+
+            <div class="alert-box" id="dailyStrict">
+                🔒  must be completed ,  No exceptions.
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table" id="taskTable">
+                    <thead>
+                        <tr>
+                            <th class="th-icon">Icon</th>
+                            <th class="th-task">Task</th>
+                            <th class="th-time">Time</th>
+                            <th class="th-detail">Details</th>
+                            <th class="th-dur">Duration</th>
+                            <th class="th-status">Status</th>
+                            <th class="th-action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TRACKING SECTION -->
+        <section id="tracking" class="section">
+            <h2 class="page-title">Performance Analytics</h2>
+            
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h4 class="chart-title">14-Day Completion Rate</h4>
+                    <canvas id="disciplineChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4 class="chart-title">Weekly Average</h4>
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="stats-row-clean">
+                <div class="stat-box-clean">
+                    <div class="stat-num" id="statStreak">0</div>
+                    <div class="stat-name">Day Streak</div>
+                </div>
+                <div class="stat-box-clean">
+                    <div class="stat-num" id="statAvg">0%</div>
+                    <div class="stat-name">Average</div>
+                </div>
+                <div class="stat-box-clean">
+                    <div class="stat-num" id="statBest">0%</div>
+                    <div class="stat-name">Best Day</div>
+                </div>
+                <div class="stat-box-clean">
+                    <div class="stat-num" id="statTotal">0</div>
+                    <div class="stat-name">Completed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTS SECTION -->
+        <section id="tests" class="section">
+            <div class="page-header">
+                <h2 class="page-title">Test Schedule & Analysis</h2>
+                <button class="btn-primary" onclick="openTestModal()">+ Schedule Test</button>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h4 class="chart-title">Score Trend</h4>
+                    <canvas id="testScoreChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4 class="chart-title">Subject Performance</h4>
+                    <canvas id="subjectChart"></canvas>
+                </div>
+            </div>
+
+            <div class="filter-pills">
+                <button class="filter-pill active" onclick="filterTests('all')">All</button>
+                <button class="filter-pill" onclick="filterTests('upcoming')">Upcoming</button>
+                <button class="filter-pill" onclick="filterTests('completed')">Completed</button>
+            </div>
+
+            <div class="test-grid" id="testList"></div>
+        </section>
+
+        <!-- EDIT SECTION -->
+        <section id="edit" class="section">
+            <div class="edit-tabs-clean">
+                <button class="edit-tab-clean active" onclick="showEditTab('tasks')">📝 Tasks</button>
+                <button class="edit-tab-clean" onclick="showEditTab('tests')">📋 Tests</button>
+                
+                <button class="edit-tab-clean" onclick="showEditTab('cloud')">☁️ Cloud</button>
+            </div>
+
+            <!-- Tasks Panel -->
+            <div class="edit-panel-clean active" id="editTasksPanel">
+                <div class="panel-header">
+                    <h3>Manage Tasks</h3>
+                    <div class="panel-actions">
+                        <button class="btn-sm" onclick="addNewTask()">+ Add</button>
+                        <button class="btn-sm secondary" onclick="resetDefaultTasks()">Reset</button>
+                    </div>
+                </div>
+                <div class="edit-list-clean" id="editTaskList"></div>
+            </div>
+
+            <!-- Tests Panel -->
+            <div class="edit-panel-clean" id="editTestsPanel">
+                <div class="panel-header">
+                    <h3>Scheduled Tests</h3>
+                </div>
+                <div class="edit-list-clean" id="editTestList"></div>
+            </div>
+
+           
+
+            <!-- Cloud Panel -->
+            <div class="edit-panel-clean" id="editCloudPanel">
+                <div class="cloud-card">
+                    <div class="cloud-icon-big">☁️</div>
+                    <h3>Cloud Backup</h3>
+                    <p class="cloud-desc">One-time sync. Your data stays backed up automatically.</p>
+                    
+                    <div class="cloud-form" id="cloudForm">
+                        <input type="email" id="cloudEmail" placeholder="your@email.com">
+                        <button class="btn-primary" onclick="syncToCloud()">Sync to Cloud</button>
+                    </div>
+                    
+                    <div class="cloud-status" id="cloudStatusDisplay">● Local storage only</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALS -->
+    <!-- Test Schedule Modal -->
+    <div class="modal-clean" id="testModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeTestModal()">&times;</button>
+            <h3 class="modal-title">Schedule New Test</h3>
+            
+            <div class="modal-form">
+                <div class="form-group">
+                    <label>Subject *</label>
+                    <select id="testSubject" required>
+                        <option value="">Select Subject</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Biology">Biology</option>
+                        <option value="PCM Combined">PCM Combined</option>
+                        <option value="Full Mock">Full Mock</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Test Type *</label>
+                    <select id="testType" required>
+                        <option value="">Select Type</option>
+                        <option value="Chapter Test">Chapter Test</option>
+                        <option value="DPP Test">DPP Test</option>
+                        <option value="Part Test">Part Test</option>
+                        <option value="Full Mock">Full Mock</option>
+                        <option value="PYQ Practice">PYQ Practice</option>
+                    </select>
+                </div>
+                
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="date" id="testDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="testTime" value="09:00">
+                    </div>
+                </div>
+                
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Duration (min)</label>
+                        <input type="number" id="testDuration" value="60" min="15" max="180">
+                    </div>
+                    <div class="form-group">
+                        <label>Max Marks *</label>
+                        <input type="number" id="testMaxMarks" value="100" min="10" max="300" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Syllabus/Topics</label>
+                    <input type="text" id="testSyllabus" placeholder="Chapters covered in this test">
+                </div>
+                
+                <button class="btn-primary btn-full" onclick="saveTest()">Schedule Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marks Entry Modal -->
+    <div class="modal-clean" id="marksModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeMarksModal()">&times;</button>
+            <h3 class="modal-title">Enter Test Marks</h3>
+            
+            <div class="test-info-box" id="marksTestInfo"></div>
+            
+            <div class="modal-form">
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Marks Obtained *</label>
+                        <input type="number" id="marksObtained" min="0" oninput="calcPercentage()" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Percentage</label>
+                        <input type="text" id="marksPercent" readonly>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Notes (Mistakes to review)</label>
+                    <textarea id="testNotes" rows="3" placeholder="Note down your mistakes..."></textarea>
+                </div>
+                
+                <button class="btn-primary btn-full" onclick="saveMarks()">Save Marks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Edit Modal -->
+    <div class="modal-clean" id="taskModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeTaskModal()">&times;</button>
+            <h3 class="modal-title">Edit Task</h3>
+            
+            <div class="modal-form">
+                <div class="form-group">
+                    <label>Task Name</label>
+                    <input type="text" id="editTaskName">
+                </div>
+                
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Icon</label>
+                        <select id="editTaskIcon">
+                            <option value="🌅">🌅 Early</option>
+                            <option value="📚">📚 Study</option>
+                            <option value="✏️">✏️ Practice</option>
+                            <option value="🧠">🧠 Concepts</option>
+                            <option value="🔄">🔄 Revision</option>
+                            <option value="🎯">🎯 Test</option>
+                            <option value="💪">💪 Exercise</option>
+                            <option value="⚡">⚡ Speed</option>
+                            <option value="📖">📖 Reading</option>
+                            <option value="🎧">🎧 Listening</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="editTaskTime">
+                    </div>
+                </div>
+                
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Duration (min)</label>
+                        <input type="number" id="editTaskDuration" min="15" max="180">
+                    </div>
+                    <div class="form-group">
+                        <label>Detail</label>
+                        <input type="text" id="editTaskDetail">
+                    </div>
+                </div>
+                
+                <button class="btn-primary btn-full" onclick="saveTaskEdit()">Save Task</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
