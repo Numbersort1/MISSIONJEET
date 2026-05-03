@@ -3,432 +3,690 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MISSION JEET | Discipline Command Center</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>MISSION JEET | Study Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Clean Compact Header -->
-    <header class="header-clean">
-        <div class="header-container">
-            <div class="brand-section">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqOdLf8JGehQP3xKHrI4lM9474lYX7WerE1g&s" alt="Mission Jeet" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                <div class="logo-fallback" style="display:none;" >
-                    <div class="logo-box">MJ</div>
+    <div class="bg-3d"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Auth Screen -->
+    <div id="authScreen" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxXyNkUD-RPCXLJFns2xUoplnaFbSD3HvSrg&s" alt="Mission Jeet"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="auth-logo-fallback" style="display:none">MJ</div>
+            </div>
+            <div class="auth-title">Mission Jeet</div>
+            <div class="auth-subtitle">Study Command Center — Your journey to JEE/NEET starts here</div>
+
+            <button class="auth-btn auth-btn-google" onclick="signInWithGoogle()">
+                <svg width="18" height="18" viewBox="0 0 18 18">
+                    <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                    <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+                    <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+                    <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+                </svg>
+                Sign in with Google
+            </button>
+
+            <div class="auth-support">
+                <div class="auth-support-label">Need Help?</div>
+                <div class="auth-support-links">
+                    <a href="https://wa.me/918292455724" target="_blank" class="support-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        WhatsApp Support
+                    </a>
+                    <a href="mailto:Diveshsah2@gmail.com" class="support-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        Email Support
+                    </a>
+                </div>
+            </div>
+
+            <div id="authLoading" class="hidden auth-loading">
+                <div class="spinner"></div>
+                <div class="auth-loading-text">Authenticating...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appContainer" class="app-container hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxXyNkUD-RPCXLJFns2xUoplnaFbSD3HvSrg&s" alt="MJ"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="brand-icon-fallback" style="display:none">MJ</div>
+                    </div>
                     <div class="brand-text">
-                        <div class="brand-name">MISSION JEET</div>
-                        <div class="brand-tag">DRONA JEE/NEET</div>
+                        <h1>Mission Jeet</h1>
+                        <p>Study Command Center</p>
+                    </div>
+                </div>
+                <div class="user-card" onclick="showSection('edit', document.querySelector('[data-section=edit]')); showEditTab('editProfile', document.querySelector('.edit-tab:nth-child(3)'))">
+                    <div class="user-avatar" id="userAvatar">
+                        <img id="userAvatarImg" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                        <span id="userAvatarFallback">👤</span>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Student</div>
+                        <div class="user-status">● Online</div>
                     </div>
                 </div>
             </div>
-            
-            <div class="quote-display">
-                <div class="quote-icon">💬</div>
-                <div class="quote-content">
-                    <p class="quote-main" id="dailyQuote">Loading today's motivation...</p>
-                    <p class="quote-author" id="quoteAuthor">—</p>
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard', this)">
+                        <span class="nav-icon">📊</span>Dashboard
+                    </button>
+                    <button class="nav-item" data-section="tasks" onclick="showSection('tasks', this)">
+                        <span class="nav-icon">📝</span>Today's Tasks
+                        <span class="nav-badge" id="taskBadge">0</span>
+                    </button>
+                    <button class="nav-item" data-section="tests" onclick="showSection('tests', this)">
+                        <span class="nav-icon">🎯</span>Test Arsenal
+                    </button>
+                    <button class="nav-item" data-section="analytics" onclick="showSection('analytics', this)">
+                        <span class="nav-icon">📈</span>Analytics
+                    </button>
                 </div>
-                <button class="quote-refresh" onclick="fetchDailyQuote()" title="New Quote">↻</button>
+                <div class="nav-section">
+                    <div class="nav-section-title">Analysis</div>
+                    <button class="nav-item" data-section="testAnalysis" onclick="showSection('testAnalysis', this)">
+                        <span class="nav-icon">🔬</span>Test Analysis
+                    </button>
+                    <button class="nav-item" data-section="consistency" onclick="showSection('consistency', this)">
+                        <span class="nav-icon">📊</span>Consistency
+                    </button>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">System</div>
+                    <button class="nav-item" data-section="edit" onclick="showSection('edit', this)">
+                        <span class="nav-icon">⚙️</span>Settings
+                    </button>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="progress-mini">
+                    <div class="progress-mini-label">
+                        <span>Daily Progress</span>
+                        <span id="sidebarProgress">0%</span>
+                    </div>
+                    <div class="progress-mini-bar">
+                        <div class="progress-mini-fill" id="sidebarProgressBar" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="sidebar-footer-brand">DRONA JEE/NEET Prep</div>
             </div>
-        </div>
-    </header>
+        </aside>
 
-    <!-- Clean Navigation -->
-    <nav class="nav-clean">
-        <button class="nav-pill active" onclick="showSection('home')">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-text">Home</span>
-        </button>
-        <button class="nav-pill" onclick="showSection('daily')">
-            <span class="nav-icon">📋</span>
-            <span class="nav-text">Tasks</span>
-        </button>
-        <button class="nav-pill" onclick="showSection('tracking')">
-            <span class="nav-icon">📊</span>
-            <span class="nav-text">Tracker</span>
-        </button>
-        <button class="nav-pill" onclick="showSection('tests')">
-            <span class="nav-icon">📝</span>
-            <span class="nav-text">Tests</span>
-        </button>
-        <button class="nav-pill" onclick="showSection('edit')">
-            <span class="nav-icon">⚙️</span>
-            <span class="nav-text">Settings</span>
-        </button>
-    </nav>
-
-    <main class="main-container">
-        <!-- HOME SECTION -->
-        <section id="home" class="section active">
-            <div class="hero-card-clean">
-                <div class="hero-badge">⚡ DAILY MISSION</div>
-                <h1 class="hero-title">Execute with Precision</h1>
-                <p class="hero-sub">Discipline over motivation. Consistency over intensity.</p>
-                
-                <div class="stats-bar">
-                    <div class="stat-chip">
-                        <span class="chip-icon">🔥</span>
-                        <span class="chip-value" id="homeStreak">0</span>
-                        <span class="chip-label">Streak</span>
-                    </div>
-                    <div class="stat-chip">
-                        <span class="chip-icon">📈</span>
-                        <span class="chip-value" id="homeProgress">0%</span>
-                        <span class="chip-label">Today</span>
-                    </div>
-                    <div class="stat-chip">
-                        <span class="chip-icon">🎯</span>
-                        <span class="chip-value" id="homeTests">0</span>
-                        <span class="chip-label">Tests</span>
-                    </div>
-                    <div class="stat-chip">
-                        <span class="chip-icon">⏱️</span>
-                        <span class="chip-value" id="homeHours">0</span>
-                        <span class="chip-label">Hours</span>
-                    </div>
-                </div>
-
-                <div class="strict-box" id="homeStrict">
-                    🔒 Complete Task 1 before touching your phone
-                </div>
-
-                <button class="btn-cta" onclick="showSection('daily')">
-                    Start Execution →
-                </button>
-            </div>
-
-            <!-- Category Grid with Icons -->
-            <div class="category-section">
-                <h3 class="section-label">Task Categories</h3>
-                <div class="category-grid-clean">
-                    <div class="cat-card" onclick="showSection('daily')" data-cat="wake">
-                        <div class="cat-icon-wrap">🌅</div>
-                        <div class="cat-name">Early Wake</div>
-                        <div class="cat-status" id="cat-wake">Pending</div>
-                    </div>
-                    <div class="cat-card" onclick="showSection('daily')" data-cat="study">
-                        <div class="cat-icon-wrap">📚</div>
-                        <div class="cat-name">Study</div>
-                        <div class="cat-status" id="cat-study">Pending</div>
-                    </div>
-                    <div class="cat-card" onclick="showSection('daily')" data-cat="practice">
-                        <div class="cat-icon-wrap">✏️</div>
-                        <div class="cat-name">Practice</div>
-                        <div class="cat-status" id="cat-practice">Pending</div>
-                    </div>
-                    <div class="cat-card" onclick="showSection('daily')" data-cat="revision">
-                        <div class="cat-icon-wrap">🔄</div>
-                        <div class="cat-name">Revision</div>
-                        <div class="cat-status" id="cat-revision">Pending</div>
-                    </div>
-                    <div class="cat-card" onclick="showSection('tests')" data-cat="test">
-                        <div class="cat-icon-wrap">🎯</div>
-                        <div class="cat-name">Test</div>
-                        <div class="cat-status" id="cat-test">Pending</div>
-                    </div>
-                    <div class="cat-card" onclick="showSection('daily')" data-cat="exercise">
-                        <div class="cat-icon-wrap">💪</div>
-                        <div class="cat-name">Exercise</div>
-                        <div class="cat-status" id="cat-exercise">Pending</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- DAILY TASKS SECTION -->
-        <section id="daily" class="section">
-            <div class="page-header">
+        <main class="main-content">
+            <div class="top-bar">
                 <div>
-                    <h2 class="page-title">Daily Execution</h2>
-                    <p class="page-date" id="currentDate">Loading...</p>
+                    <div class="page-title" id="pageTitle">Dashboard</div>
+                    <div class="page-subtitle" id="pageDate">Loading...</div>
                 </div>
-                <div class="progress-ring">
-                    <svg viewBox="0 0 36 36" class="ring-svg">
-                        <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                        <path class="ring-fill" id="ringProgress" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                    </svg>
-                    <div class="ring-text" id="ringPercent">0%</div>
-                </div>
-            </div>
-
-            <div class="alert-box" id="dailyStrict">
-                🔒  must be completed ,  No exceptions.
-            </div>
-
-            <div class="table-wrap">
-                <table class="data-table" id="taskTable">
-                    <thead>
-                        <tr>
-                            <th class="th-icon">Icon</th>
-                            <th class="th-task">Task</th>
-                            <th class="th-time">Time</th>
-                            <th class="th-detail">Details</th>
-                            <th class="th-dur">Duration</th>
-                            <th class="th-status">Status</th>
-                            <th class="th-action">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="taskTableBody"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- TRACKING SECTION -->
-        <section id="tracking" class="section">
-            <h2 class="page-title">Performance Analytics</h2>
-            
-            <div class="charts-row">
-                <div class="chart-card">
-                    <h4 class="chart-title">14-Day Completion Rate</h4>
-                    <canvas id="disciplineChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <h4 class="chart-title">Weekly Average</h4>
-                    <canvas id="weeklyChart"></canvas>
-                </div>
-            </div>
-
-            <div class="stats-row-clean">
-                <div class="stat-box-clean">
-                    <div class="stat-num" id="statStreak">0</div>
-                    <div class="stat-name">Day Streak</div>
-                </div>
-                <div class="stat-box-clean">
-                    <div class="stat-num" id="statAvg">0%</div>
-                    <div class="stat-name">Average</div>
-                </div>
-                <div class="stat-box-clean">
-                    <div class="stat-num" id="statBest">0%</div>
-                    <div class="stat-name">Best Day</div>
-                </div>
-                <div class="stat-box-clean">
-                    <div class="stat-num" id="statTotal">0</div>
-                    <div class="stat-name">Completed</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TESTS SECTION -->
-        <section id="tests" class="section">
-            <div class="page-header">
-                <h2 class="page-title">Test Schedule & Analysis</h2>
-                <button class="btn-primary" onclick="openTestModal()">+ Schedule Test</button>
-            </div>
-
-            <div class="charts-row">
-                <div class="chart-card">
-                    <h4 class="chart-title">Score Trend</h4>
-                    <canvas id="testScoreChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <h4 class="chart-title">Subject Performance</h4>
-                    <canvas id="subjectChart"></canvas>
-                </div>
-            </div>
-
-            <div class="filter-pills">
-                <button class="filter-pill active" onclick="filterTests('all')">All</button>
-                <button class="filter-pill" onclick="filterTests('upcoming')">Upcoming</button>
-                <button class="filter-pill" onclick="filterTests('completed')">Completed</button>
-            </div>
-
-            <div class="test-grid" id="testList"></div>
-        </section>
-
-        <!-- EDIT SECTION -->
-        <section id="edit" class="section">
-            <div class="edit-tabs-clean">
-                <button class="edit-tab-clean active" onclick="showEditTab('tasks')">📝 Tasks</button>
-                <button class="edit-tab-clean" onclick="showEditTab('tests')">📋 Tests</button>
-                
-                <button class="edit-tab-clean" onclick="showEditTab('cloud')">☁️ Cloud</button>
-            </div>
-
-            <!-- Tasks Panel -->
-            <div class="edit-panel-clean active" id="editTasksPanel">
-                <div class="panel-header">
-                    <h3>Manage Tasks</h3>
-                    <div class="panel-actions">
-                        <button class="btn-sm" onclick="addNewTask()">+ Add</button>
-                        <button class="btn-sm secondary" onclick="resetDefaultTasks()">Reset</button>
+                <div class="top-actions">
+                    <div class="user-display" id="userDisplay">
+                        <span id="userDisplayName">Guest</span>
                     </div>
-                </div>
-                <div class="edit-list-clean" id="editTaskList"></div>
-            </div>
-
-            <!-- Tests Panel -->
-            <div class="edit-panel-clean" id="editTestsPanel">
-                <div class="panel-header">
-                    <h3>Scheduled Tests</h3>
-                </div>
-                <div class="edit-list-clean" id="editTestList"></div>
-            </div>
-
-           
-
-            <!-- Cloud Panel -->
-            <div class="edit-panel-clean" id="editCloudPanel">
-                <div class="cloud-card">
-                    <div class="cloud-icon-big">☁️</div>
-                    <h3>Cloud Backup</h3>
-                    <p class="cloud-desc">One-time sync. Your data stays backed up automatically.</p>
-                    
-                    <div class="cloud-form" id="cloudForm">
-                        <input type="email" id="cloudEmail" placeholder="your@email.com">
-                        <button class="btn-primary" onclick="syncToCloud()">Sync to Cloud</button>
-                    </div>
-                    
-                    <div class="cloud-status" id="cloudStatusDisplay">● Local storage only</div>
+                    <button class="btn btn-secondary btn-sm" onclick="signOutUser()">🚪 Logout</button>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <!-- MODALS -->
-    <!-- Test Schedule Modal -->
-    <div class="modal-clean" id="testModal">
-        <div class="modal-box">
-            <button class="modal-close" onclick="closeTestModal()">&times;</button>
-            <h3 class="modal-title">Schedule New Test</h3>
-            
-            <div class="modal-form">
-                <div class="form-group">
-                    <label>Subject *</label>
-                    <select id="testSubject" required>
-                        <option value="">Select Subject</option>
-                        <option value="Physics">Physics</option>
-                        <option value="Chemistry">Chemistry</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Biology">Biology</option>
-                        <option value="PCM Combined">PCM Combined</option>
-                        <option value="Full Mock">Full Mock</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Test Type *</label>
-                    <select id="testType" required>
-                        <option value="">Select Type</option>
-                        <option value="Chapter Test">Chapter Test</option>
-                        <option value="DPP Test">DPP Test</option>
-                        <option value="Part Test">Part Test</option>
-                        <option value="Full Mock">Full Mock</option>
-                        <option value="PYQ Practice">PYQ Practice</option>
-                    </select>
-                </div>
-                
-                <div class="form-row-2">
-                    <div class="form-group">
-                        <label>Date *</label>
-                        <input type="date" id="testDate" required>
+            <div class="content-area">
+
+                <!-- DASHBOARD -->
+                <section id="dashboard" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Day Streak</div>
+                            <div class="stat-value" style="color:#fbbf24" id="dashStreak">0</div>
+                            <div class="stat-trend trend-up">🔥 Keep it going</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Today's Progress</div>
+                            <div class="stat-value" style="color:#34d399" id="dashProgress">0%</div>
+                            <div class="stat-trend" id="dashTrend">Start your day</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Tests Scheduled</div>
+                            <div class="stat-value" style="color:#60a5fa" id="dashTests">0</div>
+                            <div class="stat-trend">Upcoming</div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Time</label>
-                        <input type="time" id="testTime" value="09:00">
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Today's Schedule</div>
+                                <button class="btn btn-secondary btn-sm" onclick="showSection('tasks', document.querySelector('[data-section=tasks]'))">View All</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="task-list" id="dashTasks"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Daily Motivation</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="quote-text" id="dashQuote">"Discipline is doing what needs to be done, even if you don't want to do it."</div>
+                                <div class="quote-author" id="dashQuoteAuthor">— Unknown</div>
+                                <button class="btn btn-secondary" style="margin-top:16px;width:100%" onclick="refreshQuote()">🔄 New Quote</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-row-2">
-                    <div class="form-group">
-                        <label>Duration (min)</label>
-                        <input type="number" id="testDuration" value="60" min="15" max="180">
+                </section>
+
+                <!-- TASKS -->
+                <section id="tasks" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Today's Execution</div>
+                            <div style="display:flex;gap:8px">
+                                <button class="btn btn-primary btn-sm" onclick="openTaskModal()">+ Add Task</button>
+                                <button class="btn btn-secondary btn-sm" onclick="resetTasks()">🔄 Reset</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="task-list" id="taskList"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Max Marks *</label>
-                        <input type="number" id="testMaxMarks" value="100" min="10" max="300" required>
+                </section>
+
+                <!-- TESTS -->
+                <section id="tests" class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Test Arsenal</div>
+                            <button class="btn btn-primary btn-sm" onclick="openTestModal()">+ Schedule Test</button>
+                        </div>
+                        <div class="card-body">
+                            <div style="display:flex;gap:8px;margin-bottom:20px">
+                                <button class="btn btn-secondary btn-sm active" onclick="filterTests('all', this)">All</button>
+                                <button class="btn btn-secondary btn-sm" onclick="filterTests('upcoming', this)">Upcoming</button>
+                                <button class="btn btn-secondary btn-sm" onclick="filterTests('completed', this)">Completed</button>
+                            </div>
+                            <table class="data-table" id="testTable">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th><th>Type</th><th>Date</th><th>Max Marks</th><th>Score</th><th>Status</th><th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="testTableBody"></tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Syllabus/Topics</label>
-                    <input type="text" id="testSyllabus" placeholder="Chapters covered in this test">
-                </div>
-                
-                <button class="btn-primary btn-full" onclick="saveTest()">Schedule Test</button>
+                </section>
+
+                <!-- ANALYTICS -->
+                <section id="analytics" class="section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Streak</div>
+                            <div class="stat-value" id="analStreak">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Average Score</div>
+                            <div class="stat-value" id="analAvg">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Tasks Done</div>
+                            <div class="stat-value" id="analDone">0</div>
+                        </div>
+                    </div>
+                    <div class="two-col-grid">
+                        <div class="card">
+                            <div class="card-header"><div class="card-title">14-Day Completion</div></div>
+                            <div class="card-body"><div class="chart-container"><canvas id="chart14Day"></canvas></div></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><div class="card-title">Subject Performance</div></div>
+                            <div class="card-body"><div class="chart-container"><canvas id="chartSubject"></canvas></div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TEST ANALYSIS -->
+                <section id="testAnalysis" class="section">
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Overall Test Average</div>
+                                <div class="trend-arrow up" id="testAvgTrend">↑</div>
+                            </div>
+                            <div class="analysis-value" id="testAvgValue">0%</div>
+                            <div class="analysis-subtitle">Across all subjects</div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Tests Completed</div>
+                                <div class="trend-arrow up" id="testCountTrend">↑</div>
+                            </div>
+                            <div class="analysis-value" id="testCountValue">0</div>
+                            <div class="analysis-subtitle">Total tests taken</div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Best Subject</div>
+                                <div class="trend-arrow flat" id="bestSubjectTrend">—</div>
+                            </div>
+                            <div class="analysis-value" id="bestSubjectValue" style="font-size:22px">—</div>
+                            <div class="analysis-subtitle" id="bestSubjectScore">No data yet</div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Weakest Subject</div>
+                                <div class="trend-arrow down" id="weakSubjectTrend">↓</div>
+                            </div>
+                            <div class="analysis-value" id="weakSubjectValue" style="font-size:22px">—</div>
+                            <div class="analysis-subtitle" id="weakSubjectScore">No data yet</div>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px">
+                        <div class="card">
+                            <div class="card-header"><div class="card-title">Test Score Trend</div></div>
+                            <div class="card-body"><div class="chart-container"><canvas id="chartTestTrend"></canvas></div></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><div class="card-title">Subject Breakdown</div></div>
+                            <div class="card-body" id="subjectBreakdown">
+                                <div class="empty-state">Complete tests to see subject breakdown</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top:24px">
+                        <div class="card-header"><div class="card-title">Recent Test History</div></div>
+                        <div class="card-body">
+                            <table class="data-table" id="analysisTestTable">
+                                <thead><tr><th>Date</th><th>Subject</th><th>Type</th><th>Score</th><th>Percentage</th><th>Trend</th></tr></thead>
+                                <tbody id="analysisTestTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONSISTENCY -->
+                <section id="consistency" class="section">
+                    <div class="analysis-grid">
+                        <div class="analysis-card" style="text-align:center">
+                            <div class="analysis-title" style="margin-bottom:16px">Consistency Score</div>
+                            <div style="display:flex;justify-content:center">
+                                <div class="consistency-ring">
+                                    <svg width="120" height="120" viewBox="0 0 120 120">
+                                        <circle class="consistency-ring-bg" cx="60" cy="60" r="52"/>
+                                        <circle class="consistency-ring-fill" id="consistencyRing" cx="60" cy="60" r="52"
+                                            stroke-dasharray="326.73" stroke-dashoffset="326.73" stroke="#2563eb"/>
+                                    </svg>
+                                    <div class="consistency-ring-text">
+                                        <div class="consistency-ring-value" id="consistencyScore">0</div>
+                                        <div class="consistency-ring-label">Score</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="analysis-subtitle" style="margin-top:12px" id="consistencyLabel">Start completing tasks</div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Current Streak</div>
+                                <div class="trend-arrow up">🔥</div>
+                            </div>
+                            <div class="analysis-value" id="consistencyStreak">0</div>
+                            <div class="analysis-subtitle">Days in a row</div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Completion Rate</div>
+                                <div class="trend-arrow" id="completionTrend">—</div>
+                            </div>
+                            <div class="analysis-value" id="completionRate">0%</div>
+                            <div class="analysis-subtitle">All-time average</div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-header">
+                                <div class="analysis-title">Weekly Average</div>
+                                <div class="trend-arrow" id="weeklyTrend">—</div>
+                            </div>
+                            <div class="analysis-value" id="weeklyAvg">0%</div>
+                            <div class="analysis-subtitle">Last 7 days</div>
+                        </div>
+                    </div>
+                    <div class="two-col-grid">
+                        <div class="card">
+                            <div class="card-header"><div class="card-title">Daily Completion (30 Days)</div></div>
+                            <div class="card-body"><div class="chart-container"><canvas id="chartConsistency"></canvas></div></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><div class="card-title">Weekly Pattern</div></div>
+                            <div class="card-body"><div class="chart-container"><canvas id="chartWeekly"></canvas></div></div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top:24px">
+                        <div class="card-header"><div class="card-title">Consistency Insights</div></div>
+                        <div class="card-body">
+                            <div class="insights-grid">
+                                <div class="insight-box insight-green">
+                                    <div class="insight-label">✅ Strength</div>
+                                    <div class="insight-text" id="strengthInsight">Complete tasks daily to see your strengths</div>
+                                </div>
+                                <div class="insight-box insight-yellow">
+                                    <div class="insight-label">⚠️ Watch</div>
+                                    <div class="insight-text" id="watchInsight">Keep tracking to get insights</div>
+                                </div>
+                                <div class="insight-box insight-blue">
+                                    <div class="insight-label">💡 Tip</div>
+                                    <div class="insight-text" id="tipInsight">Start with small wins every day</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SETTINGS -->
+                <section id="edit" class="section">
+                    <div class="edit-tabs">
+                        <button class="edit-tab active" onclick="showEditTab('editTasks', this)">📝 Tasks</button>
+                        <button class="edit-tab" onclick="showEditTab('editTests', this)">🎯 Tests</button>
+                        <button class="edit-tab" onclick="showEditTab('editProfile', this)">👤 Profile</button>
+                    </div>
+
+                    <!-- Tasks tab: view only -->
+                    <div class="edit-panel active" id="editTasks">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Your Tasks (View Only)</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-notice">Tasks are managed from Today's Tasks section.</div>
+                                <table class="data-table">
+                                    <thead><tr><th>Icon</th><th>Task</th><th>Time</th><th>Duration</th><th>XP</th><th>Status</th></tr></thead>
+                                    <tbody id="editTaskTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tests tab: view only for submitted, edit/delete pending only -->
+                    <div class="edit-panel" id="editTests">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Manage Scheduled Tests</div>
+                                <button class="btn btn-primary btn-sm" onclick="openTestModal()">+ Schedule Test</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="warning-notice">⚠️ Only scheduled (pending) tests can be edited. Submitted tests with marks are locked.</div>
+                                <table class="data-table">
+                                    <thead><tr><th>Subject</th><th>Type</th><th>Date</th><th>Max Marks</th><th>Status</th><th>Actions</th></tr></thead>
+                                    <tbody id="editTestTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile tab -->
+                    <div class="edit-panel" id="editProfile">
+                        <div class="card profile-card">
+                            <div class="card-header"><div class="card-title">Your Profile</div></div>
+                            <div class="card-body">
+                                <div class="profile-header-row">
+                                    <div class="profile-photo-wrapper">
+                                        <div class="profile-photo-container" id="profilePhotoContainer">
+                                            <img id="profilePhoto" src="" alt="Profile" style="display:none">
+                                            <span id="profilePhotoPlaceholder">👤</span>
+                                        </div>
+                                        <label class="profile-photo-btn" for="profilePhotoInput" title="Change photo">
+                                            📷
+                                            <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="uploadProfilePhoto(this)">
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <div class="profile-name-display" id="profileDisplayName">Student</div>
+                                        <div class="profile-email-display" id="profileDisplayEmail">email@example.com</div>
+                                    </div>
+                                </div>
+
+                                <div class="profile-section-title">Personal Info</div>
+                                <div class="form-group">
+                                    <label class="form-label">Display Name</label>
+                                    <input type="text" class="form-input" id="profileName" placeholder="Your name...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Target Exam</label>
+                                    <select class="form-input" id="profileExam">
+                                        <option value="JEE Mains">JEE Mains</option>
+                                        <option value="JEE Advanced">JEE Advanced</option>
+                                        <option value="NEET">NEET</option>
+                                        <option value="Boards">Boards</option>
+                                    </select>
+                                </div>
+
+                                <div class="profile-section-title">Academics</div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">School/College</label>
+                                        <input type="text" class="form-input" id="profileSchool" placeholder="Your school name...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-input" id="profileCity" placeholder="Your city...">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Class / Year</label>
+                                        <input type="text" class="form-input" id="profileClass" placeholder="e.g., 12th, Dropper...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Board</label>
+                                        <select class="form-input" id="profileBoard">
+                                            <option value="CBSE">CBSE</option>
+                                            <option value="ICSE">ICSE</option>
+                                            <option value="State Board">State Board</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="profile-section-title">Coaching Details</div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Coaching Name</label>
+                                        <input type="text" class="form-input" id="profileCoaching" placeholder="e.g., Allen, Aakash...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Batch/Class</label>
+                                        <input type="text" class="form-input" id="profileBatch" placeholder="e.g., Alpha, Dropper...">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Coaching City</label>
+                                        <input type="text" class="form-input" id="profileCoachingCity" placeholder="City of coaching...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Enrollment Year</label>
+                                        <input type="number" class="form-input" id="profileEnrollYear" placeholder="e.g., 2024" min="2020" max="2030">
+                                    </div>
+                                </div>
+
+                                <div class="profile-section-title">Schedule</div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Wake Up Time</label>
+                                        <input type="time" class="form-input" id="profileWake" value="05:00">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Sleep Time</label>
+                                        <input type="time" class="form-input" id="profileSleep" value="23:00">
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="saveProfile()">💾 Save Profile to Cloud</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Marks Entry Modal -->
-    <div class="modal-clean" id="marksModal">
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="taskModal">
         <div class="modal-box">
-            <button class="modal-close" onclick="closeMarksModal()">&times;</button>
-            <h3 class="modal-title">Enter Test Marks</h3>
-            
-            <div class="test-info-box" id="marksTestInfo"></div>
-            
-            <div class="modal-form">
-                <div class="form-row-2">
-                    <div class="form-group">
-                        <label>Marks Obtained *</label>
-                        <input type="number" id="marksObtained" min="0" oninput="calcPercentage()" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Percentage</label>
-                        <input type="text" id="marksPercent" readonly>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Notes (Mistakes to review)</label>
-                    <textarea id="testNotes" rows="3" placeholder="Note down your mistakes..."></textarea>
-                </div>
-                
-                <button class="btn-primary btn-full" onclick="saveMarks()">Save Marks</button>
+            <div class="modal-header">
+                <div class="modal-title">Add New Task</div>
+                <button class="modal-close" onclick="closeTaskModal()">×</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Task Edit Modal -->
-    <div class="modal-clean" id="taskModal">
-        <div class="modal-box">
-            <button class="modal-close" onclick="closeTaskModal()">&times;</button>
-            <h3 class="modal-title">Edit Task</h3>
-            
-            <div class="modal-form">
+            <div class="modal-body">
                 <div class="form-group">
-                    <label>Task Name</label>
-                    <input type="text" id="editTaskName">
+                    <label class="form-label">Task Name</label>
+                    <input type="text" class="form-input" id="newTaskName" placeholder="e.g., Physics DPP">
                 </div>
-                
-                <div class="form-row-2">
+                <div class="form-row">
                     <div class="form-group">
-                        <label>Icon</label>
-                        <select id="editTaskIcon">
-                            <option value="🌅">🌅 Early</option>
+                        <label class="form-label">Icon</label>
+                        <select class="form-input" id="newTaskIcon">
+                            <option value="⚡">⚡ General</option>
                             <option value="📚">📚 Study</option>
                             <option value="✏️">✏️ Practice</option>
-                            <option value="🧠">🧠 Concepts</option>
-                            <option value="🔄">🔄 Revision</option>
-                            <option value="🎯">🎯 Test</option>
-                            <option value="💪">💪 Exercise</option>
-                            <option value="⚡">⚡ Speed</option>
+                            <option value="🧠">🧠 Brain</option>
+                            <option value="🎯">🎯 Target</option>
+                            <option value="🔬">🔬 Science</option>
+                            <option value="📐">📐 Math</option>
+                            <option value="🧪">🧪 Chemistry</option>
+                            <option value="🌅">🌅 Morning</option>
+                            <option value="🌙">🌙 Night</option>
+                            <option value="💪">💪 Workout</option>
+                            <option value="🍽️">🍽️ Meal</option>
+                            <option value="😴">😴 Sleep</option>
+                            <option value="🎵">🎵 Music</option>
+                            <option value="📝">📝 Notes</option>
                             <option value="📖">📖 Reading</option>
-                            <option value="🎧">🎧 Listening</option>
+                            <option value="🖊️">🖊️ Writing</option>
+                            <option value="🎓">🎓 Exam</option>
+                            <option value="🏆">🏆 Achievement</option>
+                            <option value="⭐">⭐ Star</option>
+                            <option value="⚗️">⚗️ Lab</option>
+                            <option value="🔭">🔭 Physics</option>
+                            <option value="💡">💡 Concept</option>
+                            <option value="📊">📊 Analytics</option>
+                            <option value="🗂️">🗂️ Revision</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Time</label>
-                        <input type="time" id="editTaskTime">
+                        <label class="form-label">Time</label>
+                        <input type="time" class="form-input" id="newTaskTime" value="09:00">
                     </div>
                 </div>
-                
-                <div class="form-row-2">
+                <div class="form-row">
                     <div class="form-group">
-                        <label>Duration (min)</label>
-                        <input type="number" id="editTaskDuration" min="15" max="180">
+                        <label class="form-label">Duration (min)</label>
+                        <input type="number" class="form-input" id="newTaskDuration" value="60" min="5" max="300">
                     </div>
                     <div class="form-group">
-                        <label>Detail</label>
-                        <input type="text" id="editTaskDetail">
+                        <label class="form-label">XP Points</label>
+                        <input type="number" class="form-input" id="newTaskXP" value="50" min="5" max="500">
                     </div>
                 </div>
-                
-                <button class="btn-primary btn-full" onclick="saveTaskEdit()">Save Task</button>
+                <div class="form-group">
+                    <label class="form-label">Details / Topic</label>
+                    <input type="text" class="form-input" id="newTaskDetail" placeholder="What to study...">
+                </div>
+                <button class="btn btn-primary" style="width:100%" onclick="saveNewTask()">✅ Add Task</button>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <!-- Test Modal -->
+    <div class="modal-overlay" id="testModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title" id="testModalTitle">Schedule Test</div>
+                <button class="modal-close" onclick="closeTestModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select class="form-input" id="newTestSubject">
+                        <option>Physics</option>
+                        <option>Chemistry</option>
+                        <option>Mathematics</option>
+                        <option>Biology</option>
+                        <option>PCM Combined</option>
+                        <option>Full Mock</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Test Type</label>
+                    <select class="form-input" id="newTestType">
+                        <option value="Chapter Test">Chapter Test</option>
+                        <option value="Unit Test">Unit Test</option>
+                        <option value="Mock Test">Mock Test</option>
+                        <option value="Previous Year">Previous Year</option>
+                        <option value="Full Syllabus">Full Syllabus</option>
+                        <option value="DPP Test">DPP Test</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-input" id="newTestDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Max Marks</label>
+                        <input type="number" class="form-input" id="newTestMarks" value="100">
+                    </div>
+                </div>
+                <input type="hidden" id="editTestId">
+                <button class="btn btn-primary" style="width:100%" onclick="saveNewTest()">📅 Schedule Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Marks Modal -->
+    <div class="modal-overlay" id="marksModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">Submit Test Results</div>
+                <button class="modal-close" onclick="closeMarksModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="marks-test-info" id="marksTestInfo">Test info</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Marks Obtained</label>
+                        <input type="number" class="form-input" id="marksObtained" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Total Marks</label>
+                        <input type="number" class="form-input" id="marksTotal" placeholder="100" min="1">
+                    </div>
+                </div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:16px">⚠️ Once submitted, marks cannot be edited.</div>
+                <button class="btn btn-primary" style="width:100%" onclick="submitMarks()">✅ Submit Results</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-referral-code="16rkamypem62" data-repl-id="3a3c15e4-96b3-4161-bcb0-2da0ff42a9a8"></script></body>
 </html>
